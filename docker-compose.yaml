@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db-mysql8:
+    container_name: db-mysql8
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/mysql8:/var/lib/mysql
+  db-redis:
+    container_name: db-redis
+    image: redis:latest
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./db/redis:/data
+  db-postgres17:
+    container_name: db-postgres17
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/postgres:/var/lib/postgresql/data
+networks:
+  default:
+    name: docker-net
+    driver: bridge
